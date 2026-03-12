@@ -1,0 +1,23 @@
+const  mongoose  = require("mongoose");
+
+const expense = new mongoose.Schema({
+   amount:{
+    type:Number,
+    required:true
+   },
+   category:{
+    type:String,
+    required:true
+   },
+   description:{
+    type:String,
+   },
+   date:{
+    type:Date,
+    default:Date.now
+   },
+})
+
+const Expense = mongoose.model("Expense",expense)
+
+module.exports = Expense;
