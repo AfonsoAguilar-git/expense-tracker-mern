@@ -1,19 +1,22 @@
 const expensesService = require("../services/expenses.service");
 
 //adicionar(get)
-function addExpense_C(req,res){
+async function addExpense_C(req,res,next){
+    try{
 
-    const newExpense = expensesService.addExpense(req.body);
-
-    
+    const newExpense =  await expensesService.addExpense(req.body);
 
     res.status(201).json(newExpense);
+    }catch(err){
+        next(err);
+    }
 }
 
 //delete(delete)
 async function deleteExpense_C(req,res,next){
     try{
-    const id = Number(req.params.id);
+    const id = req.params.id;
+
     const deleted =  await expensesService.deleteExpense(id);
     if(!deleted){
             const err = new Error("expense not found");
@@ -28,11 +31,12 @@ async function deleteExpense_C(req,res,next){
 }
 
 //update(patch)
-function updateExpense_C(req,res){
+async function updateExpense_C(req,res,next){
+    try{
 
-    const id = Number(req.params.id);
+    const id = req.params.id;
 
-    const updated = expensesService.updateExpense(id,req.body);
+    const updated =  await expensesService.updateExpense(id,req.body);
 
     if(!updated){
         const err = new Error("expense not found");
@@ -41,23 +45,32 @@ function updateExpense_C(req,res){
     }
 
     res.json(updated);
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 
 //list ( get)
-function listExpenses_C(req,res){
+async function listExpenses_C(req,res,next){
+    try{
+     const expenses =  await expensesService.listExpenses();
 
-    const expenses = expensesService.getAllExpenses();
-
-    res.json(expenses);
+    res.json(expenses);   
+    }
+    catch(err){
+        next(err);
+    }
+    
 }
 
 //id (get)
-function getExpenseById_C(req,res){
+async function getExpenseById_C(req,res,next){
+    try{
+       const id = req.params.id;
 
-    const id = Number(req.params.id);
-
-    const expense = expensesService.getExpenseById(id);
+    const expense = await expensesService.getExpenseById(id);
 
     if(!expense){
         const err = new Error("expense not found");
@@ -65,33 +78,51 @@ function getExpenseById_C(req,res){
         throw err;
     }
 
+    res.json(expense); 
+    }
+    catch(err){
+        next(err);
+    }
+    
+}
+
+async function totalExpenses_C(req,res,next){
+    try{
+       const expense = await expensesService.totalExpenses();
+
+    
     res.json(expense);
-}
-
-function totalExpenses_C(req,res){
-    const expense = expensesService.totalExpenses();
-
-    
-    res.json(expense)
-}
-
-function getExpenseByCategory_C(req,res){
-    const category = req.params.category
-
-    const expense = expensesService.getExpenseByCategory(category)
-    if(expense.length === 0){
-        const err = new Error("expense not found");
-        err.status = 404;
-        throw err;
+    }
+    catch(err){
+        next(err);
     }
     
-    res.json(expense)
 }
 
-function getCategoryStat_C(req,res){
-    const category = req.params.category
+async function getExpenseByCategory_C(req,res,next){
+    try{
+        const category = req.params.category
 
-    const expense = expensesService.getCategoryStat(category)
+        const expense =  await expensesService.getExpenseByCategory(category)
+        if(expense.length === 0){
+            const err = new Error("expense not found");
+            err.status = 404;
+            throw err;
+    }
+    
+    res.json(expense)    
+    }
+    catch(err){
+        next(err);
+    }
+    
+}
+
+async function getCategoryStat_C(req,res,next){
+    try{
+        const category = req.params.category
+
+    const expense = await expensesService.getCategoryStat(category)
     if(!expense){
         const err = new Error("expense not found");
         err.status = 404;
@@ -99,6 +130,11 @@ function getCategoryStat_C(req,res){
     }
     
     res.json(expense)
+    }
+    catch(err){
+        next(err);
+    }
+    
 }
 
 
