@@ -1,4 +1,5 @@
 require('dotenv').config()
+console.log(process.env.MONGODB_URL)
 const express = require("express");
 const app = express();
 const db = require("./config/db")
@@ -18,7 +19,7 @@ app.use("/expenses", expensesRoutes);
 app.use(errorHandler);
 
 
-
+console.log("connecting to db...")
 db.connectDB();
 
 
