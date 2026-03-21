@@ -1,44 +1,12 @@
-import { useEffect, useState } from "react"
+import useExpenses from "./hooks/useExpenses"
 import Form from "./components/ExpenseForm"
 import ExpenseItem from "./components/ExpenseItem"
 
 
 function App() {
-  const [expenses, setExpenses] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(()=>{
-    async function fetchExpense(){
-      try{
-        let response = await fetch("http://localhost:3000/expenses")
-        const data = await response.json();
-        setExpenses(data);
-        setLoading(false);
-      }catch(err){
-        setError(err);
-        setLoading(false);
-      }
-    }
-    fetchExpense();
-  },[])
-
-  async function handleDelete(id){
-      try{
-        let response = await fetch(`http://localhost:3000/expenses/${id}`,{method:"DELETE"})
-        const data = expenses.filter(expense =>{
-          return id != expense._id;
-        });
-        
-        setExpenses(data);
-        setLoading(false);
-
-      } catch(err){
-        setError(err);
-        setLoading(false);
-      }
-  }
   
+  const { expenses, loading, error, handleDelete ,addExpense} = useExpenses()
+
   if (loading) return (
     <div>
       <p>loading ....</p>
@@ -56,7 +24,7 @@ function App() {
         <ExpenseItem  key={expense._id} expense={expense} handleDelete={handleDelete}/>
       ))}
       <div>
-        <Form setExpenses={setExpenses} />
+        <Form addExpense={addExpense} />
       </div>
     </div>
   )

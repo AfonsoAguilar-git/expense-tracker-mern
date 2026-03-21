@@ -2,29 +2,19 @@ import { useState } from "react"
 
 
 
-function Form({setExpenses}){
+
+function Form({addExpense}){
     const [amount ,setAmount] = useState("");
     const [description ,setDescription] = useState("");
     const [category ,setCategory] = useState("Food");
     async function handleSubmit(e){
         try{
         e.preventDefault();
-        const response = await fetch("http://localhost:3000/expenses",
-            {
-                headers:{
-                    "Content-Type": "application/json"
-                },
-                method: "POST",
-                body: JSON.stringify({amount: Number(amount),description,category})
-            })
-            const data = await response.json();
-            setExpenses(prev => [...prev,data]);
+        addExpense(amount,description,category)
         }catch(err){
-            console.log(err);
-            
+            console.log(err);    
         }
         
-
     }
 
     return (
