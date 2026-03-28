@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.pattern-bg{
+    background-image: repeating-linear-gradient( 120deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 200, 0, 0.05) 15px,
+        rgba(255, 200, 0, 0.05) 17px);
+}
+
