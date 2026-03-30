@@ -1,6 +1,6 @@
 # Expense Tracker
 
-## Web app designed to keep track and keep a clear history of your daily expenses.
+## Web app designed to keep track and maintain a clear history of your daily expenses.
 
 
 ![App Screenshot](docs/Front_Page.png)
@@ -34,10 +34,10 @@
 5. Run the client: `npm run dev`
 
 ## Features:
-- Creation Expenses;
-- Reading Expenses;
-- Updating Expenses;
-- Deletion Expenses;
-- Filtering Expenses;
+- Add expenses;
+- View expenses;
+- Update expenses;
+- Delete expenses;
+- Filter expenses by category;
 
 
